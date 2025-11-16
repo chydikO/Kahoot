@@ -1,10 +1,137 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
+<!doctype html>
+<html lang="uk">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Kahoot‑style Quiz — HTML/CSS/JS</title>
+        <link rel="stylesheet" href="styles/style.css" />
+    </head>
+    <body>
+        <div class="container">
+            <header>
+                <div class="brand"><div class="brand-logo"></div><div>Kahoot‑style Quiz</div></div>
+                <div class="pill">HTML + CSS + JS (без бекенда)</div>
+            </header>
+
+            <!-- LOBBY / SETUP -->
+            <section id="screen-lobby" class="screen active">
+                <div class="grid">
+                    <div class="card stack">
+                        <h2 style="margin:0">Лобі</h2>
+                        <div class="subtitle">Згенеровано PIN гри. Запросіть друзів за одним екраном 😉</div>
+                        <div class="row">
+                            <div class="card" style="display:flex;align-items:center;gap:12px">
+                                <div class="subtitle">PIN:</div>
+                                <div id="pin" class="score-bubble" style="font-size:20px"></div>
+                            </div>
+                            <div class="card" style="display:flex;align-items:center;gap:12px">
+                                <div class="subtitle">К-сть запитань</div>
+                                <select id="q-count" class="btn secondary" style="padding:10px 12px">
+                                    <option value="5">5</option>
+                                    <option value="10">10</option>
+                                    <option value="15">15</option>
+                                </select>
+                            </div>
+                            <div class="card" style="display:flex;align-items:center;gap:12px">
+                                <div class="subtitle">Ліміт часу / питання</div>
+                                <select id="q-seconds" class="btn secondary" style="padding:10px 12px">
+                                    <option value="20">20 с</option>
+                                    <option value="30" selected>30 с</option>
+                                    <option value="45">45 с</option>
+                                    <option value="60">60 с</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <button id="start" class="btn">Почати гру</button>
+                            <button id="importBtn" class="btn secondary">Імпорт питань (JSON)</button>
+                            <button id="resetBtn" class="btn ghost">Скинути</button>
+                        </div>
+                        <details>
+                            <summary class="subtitle">Формат JSON для імпорту (приклад)</summary>
+                            <pre style="white-space:pre-wrap;color:#cde">[
+          {
+            "q": "Яка мова виконується у браузері?",
+            "options": ["Python","Java","JavaScript","C++"],
+            "answer": 2
+          }
+        ]</pre>
+                        </details>
+                    </div>
+                    <div class="card stack">
+                        <h3 style="margin:0">Правила нарахування балів</h3>
+                        <ul style="margin:0 0 6px 16px;line-height:1.6">
+                            <li>База за правильну відповідь: <b>1000</b> очок.</li>
+                            <li>Бонус за швидкість: до <b>+500</b> очок, пропорційно часу, що залишився.</li>
+                            <li>Серія правильних відповідей: +<b>100</b> за кожну в серії.</li>
+                        </ul>
+                        <div class="subtitle">Натисніть <span class="kbd">1–4</span>, щоб відповідати гарячими клавішами.</div>
+                        <div class="progress" aria-label="Прогрес">
+                            <div id="progress"></div>
+                        </div>
+                        <div class="row">
+                            <div class="score-bubble">Рахунок: <span id="score">0</span></div>
+                            <div class="score-bubble">Серія: <span id="streak">0</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QUIZ -->
+            <section id="screen-quiz" class="screen">
+                <div class="card stack">
+                    <div class="row" style="justify-content:space-between;align-items:center">
+                        <div class="timer-wrap">
+                            <div class="ring" aria-live="polite">
+                                <svg width="54" height="54" viewBox="0 0 54 54">
+                                    <defs>
+                                        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                            <stop offset="0%" stop-color="var(--brand)"/>
+                                            <stop offset="100%" stop-color="var(--brand-2)"/>
+                                        </linearGradient>
+                                    </defs>
+                                    <circle r="22" cx="27" cy="27" />
+                                    <circle class="bar" r="22" cx="27" cy="27" stroke-dasharray="138.23" stroke-dashoffset="0" />
+                                </svg>
+                                <div class="center" id="timeLeft">30</div>
+                            </div>
+                            <div class="pill" id="qIndicator">Питання 1/10</div>
+                        </div>
+                        <div class="score-bubble">Очки: <span id="scoreLive">0</span></div>
+                    </div>
+                    <div class="question" id="question">…</div>
+                    <div id="options" class="options" role="group" aria-label="Варіанти відповіді"></div>
+                    <div class="row" style="justify-content:space-between;margin-top:8px">
+                        <button id="skip" class="btn secondary">Пропустити</button>
+                        <button id="next" class="btn" disabled>Далі</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RESULTS -->
+            <section id="screen-results" class="screen">
+                <div class="card stack">
+                    <h2 style="margin:0">Результати</h2>
+                    <div class="row" style="align-items:center;gap:12px">
+                        <div class="score-bubble" style="font-size:22px">Підсумковий рахунок: <span id="finalScore">0</span></div>
+                        <div class="pill">Найвища серія: <span id="bestStreak">0</span></div>
+                    </div>
+                    <div class="card">
+                        <table>
+                            <thead><tr><th>#</th><th>Питання</th><th>Відповідь</th><th>Статус</th><th>Очки</th></tr></thead>
+                            <tbody id="details"></tbody>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <button id="again" class="btn">Ще раз</button>
+                        <button id="returnLobby" class="btn secondary">До лобі</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+        <script src="scripts/index.js"></script>
+    </body>
 </html>
