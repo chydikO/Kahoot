@@ -1,0 +1,63 @@
+# JetBrains IDEs (WebStorm, IntelliJ IDEA, etc.)
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/shelf
+.idea/httpRequests
+.idea/*.iml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/codeStyles/Project.xml
+.idea/libraries/
+.idea/dataSources/
+.idea/sqldialects.xml
+.idea/watcherTasks.xml
+.idea/inspectionProfiles/
+.idea/jsLibraryMappings.xml # Consider keeping if sharing library mappings
+.idea/fileTemplates/
+.idea/scopes/
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp/
+.pnp.js
+
+# Build artifacts
+dist/
+build/
+out/
+target/
+
+# Log files
+*.log
+
+# Dependency lock files (uncomment if not using a specific dependency manager)
+# package-lock.json
+# yarn.lock
+# pnpm-lock.yaml
+
+# Environment variables
+.env
+.env.*
+env.local
+env.development.local
+env.test.local
+env.production.local
+
+# Temporary files
+tmp/
+*.tmp
+*.bak
+*~
+*.swp
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Other
+coverage/
+.nyc_output/
