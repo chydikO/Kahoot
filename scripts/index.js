@@ -41,8 +41,12 @@ const state = {
 // ======= Helpers =======
 const $ = s => document.querySelector(s);
 const $$ = s => Array.from(document.querySelectorAll(s));
-const show = id => { $$('#screen-lobby, #screen-quiz, #screen-results').forEach(el=>el.classList.remove('active')); $(id).classList.add('active'); };
-const toast = (msg) => { const t = $('#toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800); };
+const show = id => {
+    $$('#screen-lobby, #screen-quiz, #screen-results').forEach(el=>el.classList.remove('active')); $(id).classList.add('active');
+};
+const toast = (msg) => {
+    const t = $('#toast'); t.textContent = msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'), 1800);
+};
 const shuffle = (arr) => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
 
 function setProgress(){
@@ -66,7 +70,10 @@ function setRing(){
     $('#timeLeft').textContent = Math.max(0, Math.ceil(state.timeLeft));
 }
 
-function stopTimer(){ clearInterval(state.timer); state.timer = null; }
+function stopTimer(){
+    clearInterval(state.timer); state.timer = null;
+}
+
 function startTimer(){
     stopTimer();
     state.timeLeft = state.secondsPerQ;
@@ -180,7 +187,11 @@ function startGame(){
     const cnt = parseInt($('#q-count').value,10);
     state.secondsPerQ = parseInt($('#q-seconds').value,10);
     state.pool = shuffle(state.all).slice(0, cnt);
-    state.current = 0; state.score = 0; state.streak = 0; state.bestStreak = 0; state.details = [];
+    state.current = 0;
+    state.score = 0;
+    state.streak = 0;
+    state.bestStreak = 0;
+    state.details = [];
     show('#screen-quiz');
     renderQuestion();
 }
@@ -226,5 +237,8 @@ window.addEventListener('keydown', (e)=>{
 });
 
 // Init lobby PIN
-function genPin(){ return Math.floor(100000 + Math.random()*900000); }
+function genPin(){
+    return Math.floor(100000 + Math.random()*900000);
+}
+
 $('#pin').textContent = genPin();

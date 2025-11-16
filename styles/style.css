@@ -65,3 +65,18 @@ th{color:var(--muted);font-weight:600;text-align:left}
 /* Tiny toast */
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#15192b;border:1px solid rgba(255,255,255,.12);padding:10px 14px;border-radius:10px;display:none}
 .toast.show{display:block}
+
+/*  add inline styles */
+.margin-0 { margin: 0; }
+.display-flex { display: flex; }
+.align-items-center { align-items: center; }
+.gap-12 { gap: 12px; }
+.font-size-20 { font-size: 20px; }
+.font-size-22 { font-size: 22px; }
+.padding-10-12 { padding: 10px 12px; }
+.justify-space-between { justify-content: space-between; }
+.margin-top-8 { margin-top: 8px; }
+.white-space-pre-wrap { white-space: pre-wrap; }
+.color-cde { color: #cde; }
+.margin-0-0-6-16 { margin: 0 0 6px 16px; }
+.line-height-1-6 { line-height: 1.6; }

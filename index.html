@@ -9,7 +9,10 @@
     <body>
         <div class="container">
             <header>
-                <div class="brand"><div class="brand-logo"></div><div>Kahoot‑style Quiz</div></div>
+                <div class="brand">
+                    <div class="brand-logo"></div>
+                    <div>Kahoot‑style Quiz</div>
+                </div>
                 <div class="pill">HTML + CSS + JS (без бекенда)</div>
             </header>
 
@@ -17,24 +20,24 @@
             <section id="screen-lobby" class="screen active">
                 <div class="grid">
                     <div class="card stack">
-                        <h2 style="margin:0">Лобі</h2>
+                        <h2 class="margin-0">Лобі</h2>
                         <div class="subtitle">Згенеровано PIN гри. Запросіть друзів за одним екраном 😉</div>
                         <div class="row">
-                            <div class="card" style="display:flex;align-items:center;gap:12px">
+                            <div class="card display-flex align-items-center gap-12">
                                 <div class="subtitle">PIN:</div>
-                                <div id="pin" class="score-bubble" style="font-size:20px"></div>
+                                <div id="pin" class="score-bubble font-size-20"></div>
                             </div>
-                            <div class="card" style="display:flex;align-items:center;gap:12px">
+                            <div class="card display-flex align-items-center gap-12">
                                 <div class="subtitle">К-сть запитань</div>
-                                <select id="q-count" class="btn secondary" style="padding:10px 12px">
+                                <select id="q-count" class="btn secondary padding-10-12">
                                     <option value="5">5</option>
                                     <option value="10">10</option>
                                     <option value="15">15</option>
                                 </select>
                             </div>
-                            <div class="card" style="display:flex;align-items:center;gap:12px">
+                            <div class="card display-flex align-items-center gap-12">
                                 <div class="subtitle">Ліміт часу / питання</div>
-                                <select id="q-seconds" class="btn secondary" style="padding:10px 12px">
+                                <select id="q-seconds" class="btn secondary padding-10-12">
                                     <option value="20">20 с</option>
                                     <option value="30" selected>30 с</option>
                                     <option value="45">45 с</option>
@@ -49,7 +52,7 @@
                         </div>
                         <details>
                             <summary class="subtitle">Формат JSON для імпорту (приклад)</summary>
-                            <pre style="white-space:pre-wrap;color:#cde">[
+                            <pre class="white-space-pre-wrap color-cde">[
           {
             "q": "Яка мова виконується у браузері?",
             "options": ["Python","Java","JavaScript","C++"],
@@ -59,8 +62,8 @@
                         </details>
                     </div>
                     <div class="card stack">
-                        <h3 style="margin:0">Правила нарахування балів</h3>
-                        <ul style="margin:0 0 6px 16px;line-height:1.6">
+                        <h3 class="margin-0">Правила нарахування балів</h3>
+                        <ul class="margin-0-0-6-16 line-height-1-6">
                             <li>База за правильну відповідь: <b>1000</b> очок.</li>
                             <li>Бонус за швидкість: до <b>+500</b> очок, пропорційно часу, що залишився.</li>
                             <li>Серія правильних відповідей: +<b>100</b> за кожну в серії.</li>
@@ -80,7 +83,7 @@
             <!-- QUIZ -->
             <section id="screen-quiz" class="screen">
                 <div class="card stack">
-                    <div class="row" style="justify-content:space-between;align-items:center">
+                    <div class="row display-flex justify-space-between align-items-center">
                         <div class="timer-wrap">
                             <div class="ring" aria-live="polite">
                                 <svg width="54" height="54" viewBox="0 0 54 54">
@@ -101,7 +104,7 @@
                     </div>
                     <div class="question" id="question">…</div>
                     <div id="options" class="options" role="group" aria-label="Варіанти відповіді"></div>
-                    <div class="row" style="justify-content:space-between;margin-top:8px">
+                    <div class="row display-flex justify-space-between margin-top-8">
                         <button id="skip" class="btn secondary">Пропустити</button>
                         <button id="next" class="btn" disabled>Далі</button>
                     </div>
@@ -111,9 +114,9 @@
             <!-- RESULTS -->
             <section id="screen-results" class="screen">
                 <div class="card stack">
-                    <h2 style="margin:0">Результати</h2>
-                    <div class="row" style="align-items:center;gap:12px">
-                        <div class="score-bubble" style="font-size:22px">Підсумковий рахунок: <span id="finalScore">0</span></div>
+                    <h2 class="margin-0">Результати</h2>
+                    <div class="row display-flex align-items-center gap-12">
+                        <div class="score-bubble font-size-22">Підсумковий рахунок: <span id="finalScore">0</span></div>
                         <div class="pill">Найвища серія: <span id="bestStreak">0</span></div>
                     </div>
                     <div class="card">
