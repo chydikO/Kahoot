@@ -292,22 +292,6 @@ function resetAll(){
     $('#streak').textContent = '0';
 }
 
-// ======= Import =======
-function promptImport(){
-    const sample = '[\n  {\n    "q": "Приклад питання?",\n    "options": ["A","B","C","D"],\n    "answer": 0\n  }\n]';
-    const json = prompt('Вставте JSON масив питань (q, options[4], answer index):', sample);
-    if(!json) return;
-    try{
-        const data = JSON.parse(json);
-        if(!Array.isArray(data)) throw new Error('Очікується масив');
-        const ok = data.every(x=> x && typeof x.q==='string' && Array.isArray(x.options) && x.options.length===4 && Number.isInteger(x.answer));
-        if(!ok) throw new Error('Невірний формат полів');
-        state.all = data;
-        toast(`Імпортовано питань: ${state.all.length}`);
-    }catch(e){
-        alert('Помилка імпорту: ' + e.message);
-    }
-}
 
 // ======= Events =======
 $('#start').addEventListener('click', startGame);
@@ -327,18 +311,6 @@ $('#next').addEventListener('click', () => {
 $('#skip').addEventListener('click', ()=> { lockQuestion(); nextQuestion(); });
 $('#again').addEventListener('click', ()=> { resetAll(); startGame(); });
 $('#returnLobby').addEventListener('click', resetAll);
-$('#importBtn').addEventListener('click', promptImport);
-$('#resetBtn').addEventListener('click', ()=> { state.all=[...DEMO_QUESTIONS]; toast('Скинуто до дефолту'); });
-
-// Hotkeys 1-4
-window.addEventListener('keydown', (e)=> {
-    if(['1','2','3','4'].includes(e.key) && state.accepting) {
-        selectAnswer(parseInt(e.key,10)-1);
-    }
-    if(e.key==='Enter' && !$('#next').disabled) {
-        nextQuestion();
-    }
-});
 
 //startGame();
 

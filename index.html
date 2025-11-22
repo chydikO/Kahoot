@@ -50,19 +50,7 @@
                         </div>
                         <div class="row">
                             <button id="start" class="btn">Почати гру</button>
-                            <button id="importBtn" class="btn secondary">Імпорт питань (JSON)</button>
-                            <button id="resetBtn" class="btn ghost">Скинути</button>
                         </div>
-                        <details>
-                            <summary class="subtitle">Формат JSON для імпорту (приклад)</summary>
-                            <pre class="white-space-pre-wrap color-cde">[
-          {
-            "q": "Яка мова виконується у браузері?",
-            "options": ["Python","Java","JavaScript","C++"],
-            "answer": 2
-          }
-        ]</pre>
-                        </details>
                     </div>
                     <div class="card stack">
                         <h3 class="margin-0">Правила нарахування балів</h3>
@@ -71,7 +59,6 @@
                             <li>Бонус за швидкість: до <b>+500</b> очок, пропорційно часу, що залишився.</li>
                             <li>Серія правильних відповідей: +<b>100</b> за кожну в серії.</li>
                         </ul>
-                        <div class="subtitle">Натисніть <span class="kbd">1–4</span>, щоб відповідати гарячими клавішами.</div>
                         <div class="progress" aria-label="Прогрес">
                             <div id="progress"></div>
                         </div>
