@@ -84,7 +84,8 @@ header{
     display:grid;gap:16px
 }
 
-.grid{display:grid;
+.grid{
+    display:grid;
     gap:16px
 }
 @media(min-width:720px){
@@ -105,8 +106,9 @@ header{
 }
 
 .btn:hover{
-    filter:brightness(1.05)
+    filter:brightness(1.05);
 }
+
 .btn:active{
     transform:translateY(1px)
 }
@@ -176,6 +178,11 @@ header{
 .opt.wrong{
     background:linear-gradient(180deg, rgba(255,93,122,.18), rgba(255,93,122,.06));
     border-color:rgba(255,93,122,.45)
+}
+
+.opt.selected-pick{
+    background:linear-gradient(180deg, rgba(124, 92, 255, .18), rgba(124, 92, 255, .06));
+    border-color:var(--brand);
 }
 
 .question{
@@ -297,3 +304,20 @@ th{
 .color-cde { color: #cde; }
 .margin-0-0-6-16 { margin: 0 0 6px 16px; }
 .line-height-1-6 { line-height: 1.6; }
+
+/* change select control background on hover */
+select:hover{
+    filter:brightness(1.05);
+    background: blueviolet;
+    color: #fff;
+}
+
+/* limited support: style options (may not work on all browsers/OS) */
+select option{
+    background:#fff;
+    color:#000;
+}
+select option:hover{
+    background: blueviolet;
+    color:#fff;
+}

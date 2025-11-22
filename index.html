@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <title>Kahoot‑style Quiz — HTML/CSS/JS</title>
+        <title>Kahoot — HTML/CSS/JS</title>
         <link rel="stylesheet" href="styles/reset.css" />
         <link rel="stylesheet" href="styles/style.css" />
     </head>
@@ -12,9 +12,9 @@
             <header>
                 <div class="brand">
                     <div class="brand-logo"></div>
-                    <div>Kahoot‑style Quiz</div>
+                    <div>Kahoot Quiz</div>
                 </div>
-                <div class="pill">HTML + CSS + JS (без бекенда)</div>
+                <div class="pill">HTML + CSS + JS</div>
             </header>
 
             <!-- LOBBY / SETUP -->
@@ -30,6 +30,7 @@
                             </div>
                             <div class="card display-flex align-items-center gap-12">
                                 <div class="subtitle">К-сть запитань</div>
+                                <label for="q-count"></label>
                                 <select id="q-count" class="btn secondary padding-10-12">
                                     <option value="5">5</option>
                                     <option value="10">10</option>
@@ -38,9 +39,10 @@
                             </div>
                             <div class="card display-flex align-items-center gap-12">
                                 <div class="subtitle">Ліміт часу / питання</div>
+                                <label for="q-seconds"></label>
                                 <select id="q-seconds" class="btn secondary padding-10-12">
-                                    <option value="20">20 с</option>
-                                    <option value="30" selected>30 с</option>
+                                    <option value="20" selected>20 с</option>
+                                    <option value="30">30 с</option>
                                     <option value="45">45 с</option>
                                     <option value="60">60 с</option>
                                 </select>
