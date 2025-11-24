@@ -1,4 +1,4 @@
-// ======= Data (demo) =======
+// ======= Data (DEMO_QUESTIONS) =======
 const DEMO_QUESTIONS = [
     { q: 'Яка мова виконується у браузері?', options: ['Python','C++','JavaScript','Java'], answer: 2 },
     { q: 'Селектор за ідентифікатором у CSS?', options: ['.id','#id','id{}','[id]'], answer: 1 },
@@ -23,25 +23,28 @@ const DEMO_QUESTIONS = [
     { q: 'Атрибут <img> для альтернативного тексту', options: ['title','name','alt','desc'], answer: 2 }
 ];
 
+// ======= Допоміжні функції =======
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const CIRC = 2 * Math.PI * 22; // stroke length≠
+
 // ======= State =======
 const state = {
-    all: [...DEMO_QUESTIONS], // Всі доступні питання (може змінюватися імпортом)
+    all: [...DEMO_QUESTIONS], // Всі доступні питання
     pool: [],                // Питання, відібрані для поточної гри
     current: 0,              // Індекс поточного питання у масиві 'pool'
     score: 0,                // Загальний рахунок гравця
     streak: 0,               // Кількість правильних відповідей поспіль
     bestStreak: 0,           // Найкраща серія правильних відповідей
-    secondsPerQ: 20,         // Ліміт часу на одне питання
-    timeLeft: 20,            // Час, що залишився у поточному питанні
+    secondsPerQ: 0,         // Ліміт часу на одне питання
+    timeLeft: 0,            // Час, що залишився у поточному питанні
     timer: null,             // ID таймера (для очищення за допомогою clearInterval)
     accepting: false,        // Прапорець: чи приймаються відповіді зараз (true/false)
     results: [],              // Масив для зберігання детальних результатів по кожному питанню
-    selectedAnswer: null     // Індекс останньої обраної відповіді (null, 0, 1, 2, або 3)
+    selectedAnswer: null,     // Індекс останньої обраної відповіді (null, 0, 1, 2, або 3)
+    countOfQuestions: 0     // Кількість питань вікторини
 };
 
-// ======= Helpers functions=======
-const $ = s => document.querySelector(s);
-const $$ = s => Array.from(document.querySelectorAll(s));
 
 // Функція яка Показує потрібний екран.
 const show = id => {
@@ -56,8 +59,8 @@ const toast = (msg) => {
     setTimeout(()=>t.classList.remove('show'), 1800);
 };
 
-// Функція яка Перемішує масив (Fisher-Yates shuffle)
-const shuffle = (arr) => arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(v=>v[1]);
+//Функція яка Перемішує масив
+const shuffle = (arr) => arr.map(value => ({ value, sort: Math.random() })).sort((a, b) => a.sort - b.sort).map(({ value }) => value);
 
 //Функція яка Оновлює індикатор прогресу.
 function setProgress(){
@@ -65,16 +68,13 @@ function setProgress(){
     $('#progress').style.width = pct + '%';
 }
 
-// Функція яка Оновлює індикатори (рахунок, серія, номер питання)
+//Функція яка Оновлює індикатори (рахунок, серія, номер питання)
 function updateIndicators(){
     $('#score').textContent = state.score;
     $('#scoreLive').textContent = state.score;
     $('#streak').textContent = state.streak;
     $('#qIndicator').textContent = `Питання ${Math.min(state.current+1,state.pool.length)}/${state.pool.length}`;
 }
-
-// ======= Quiz functions =======
-const CIRC = 2 * Math.PI * 22; // stroke length
 
 // Функція яка Оновлює кільце таймера.
 function setRing(){
@@ -108,7 +108,7 @@ function startTimer(){
                 if($('#screen-quiz').classList.contains('active')){
                     nextQuestion();
                 }
-            }, 2000);
+            }, 1500);
         }
     }, 100);
 }
@@ -147,7 +147,7 @@ function lockQuestion(){
         }
     }
 
-    // save detail
+    // збереження результатів
     state.results[state.current] = {
         index: state.current+1,
         q: q.q,
@@ -167,7 +167,7 @@ function lockQuestion(){
             opt.classList.add('wrong');
         }
 
-        // >>> ДОДАНО: Прибираємо підсвічування "обрано"
+        // Прибираємо підсвічування "обрано"
         opt.classList.remove('selected-pick');
 
         // Блокуємо всі кнопки, щоб не було кліків
@@ -184,7 +184,7 @@ function renderQuestion(){
     const wrap = $('#options');
     wrap.innerHTML = '';
 
-    // >>> Викликаємо функцію, яка створює варіант
+    // Викликаємо функцію, яка створює варіант
     const createOption = (text, i) => {
         const div = document.createElement('label');
         div.className = 'opt';
@@ -211,10 +211,10 @@ function renderQuestion(){
 function selectAnswer(i){
     if(!state.accepting) return; // якщо відповіді не приймаються, вихід
 
-    // 1. Реєструємо вибір
+    // Реєстрація вибору
     state.selectedAnswer = i;
 
-    // 2. Візуально підсвічуємо обраний варіант
+    // підсвічуємо обраний варіант
     const opts = $$('#options .opt');
 
     opts.forEach((el,idx)=>{
@@ -227,7 +227,7 @@ function selectAnswer(i){
         el.classList.remove('correct','wrong');
     });
 
-    // 3. Активуємо кнопку "Далі" для пропуску, якщо відповідь обрана
+    // Активуємо кнопку "Далі" для пропуску, якщо відповідь обрана
     $('#skip').textContent = "Пропустити"; // Кнопка "Пропустити" залишається
 
     $('#next').disabled = false;
@@ -271,9 +271,7 @@ function nextQuestion(){
 
 // Функція яка Починає нову гру.
 function startGame(){
-    const cnt = 5;
-    state.secondsPerQ = 20;
-    state.pool = shuffle(state.all).slice(0, cnt);
+    state.pool = shuffle(state.all).slice(0, state.countOfQuestions);
     state.current = 0;
     state.score = 0;
     state.streak = 0;
@@ -293,18 +291,18 @@ function resetAll(){
 }
 
 
-// ======= Events =======
+// ======= Обробка натисканій на кнопки та обробка selec-ів =======
 $('#start').addEventListener('click', startGame);
 $('#next').addEventListener('click', () => {
     // Якщо питання вже заблоковано (після закінчення часу), просто переходимо далі
     if (!state.accepting) {
         nextQuestion();
     } else {
-        // Якщо відповіді ще приймаються, це означає, що користувач обрав відповідь і натиснув "Далі"
-        // Ми повинні спочатку заблокувати питання (фіналізувати вибір/рахунок)
+        // користувач обрав відповідь і натиснув "Далі"
+        // блокування питання
         lockQuestion();
-        // А потім перейти до наступного питання
-        setTimeout(nextQuestion, 1500); // невелика затримка для візуалізації результату
+        // перехід до наступного питання
+        setTimeout(nextQuestion, 1500); //затримка для візуалізації результату
     }
 });
 
@@ -312,9 +310,46 @@ $('#skip').addEventListener('click', ()=> { lockQuestion(); nextQuestion(); });
 $('#again').addEventListener('click', ()=> { resetAll(); startGame(); });
 $('#returnLobby').addEventListener('click', resetAll);
 
+// wait for DOM, select by id, guard null, and log changes
+document.addEventListener('DOMContentLoaded', () => {
+    const selectElement = $('#q-seconds');
+    if (!selectElement) {
+        console.warn('Select element #q-seconds not found');
+        return;
+    }
+
+    // initial value
+    console.log('Selected Value:', selectElement.value);
+    state.secondsPerQ = parseInt(selectElement.value);
+
+    // update when user changes selection
+    selectElement.addEventListener('change', (e) => {
+        console.log('Selected Value:', e.target.value);
+        state.secondsPerQ = parseInt(e.target.value);
+    });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const selectElement = $('#q-count');
+    if (!selectElement) {
+        console.warn('Select element #q-seconds not found');
+        return;
+    }
+
+    // initial value
+    console.log('Selected Value:', selectElement.value);
+    state.countOfQuestions = parseInt(selectElement.value);
+
+    // update when user changes selection
+    selectElement.addEventListener('change', (e) => {
+        console.log('Selected Value:', e.target.value);
+        state.countOfQuestions = parseInt(e.target.value);
+    });
+});
+
 //startGame();
 
-// Init lobby PIN
+// Випадкова генерація PIN
 function genPin(){
     return Math.floor(100000 + Math.random()*900000);
 }

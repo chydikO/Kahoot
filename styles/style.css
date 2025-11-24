@@ -143,6 +143,7 @@ header{
 @media(min-width:640px){
     .options{grid-template-columns:1fr 1fr}
 }
+
 .opt{
     position:relative;
     border-radius:16px;
@@ -152,12 +153,15 @@ header{
     cursor:pointer;
     overflow:hidden;min-height:64px
 }
+
 .opt:hover{
     background:rgba(255,255,255,.08)
 }
+
 .opt input{
     display:none
 }
+
 .opt .marker{
     position:absolute;
     left:0;
@@ -171,10 +175,12 @@ header{
 .opt .marker span{
     font-weight:800
 }
+
 .opt.correct{
     background:linear-gradient(180deg, rgba(61,220,151,.18), rgba(61,220,151,.06));
     border-color:rgba(61,220,151,.5)
 }
+
 .opt.wrong{
     background:linear-gradient(180deg, rgba(255,93,122,.18), rgba(255,93,122,.06));
     border-color:rgba(255,93,122,.45)
@@ -311,7 +317,6 @@ select:hover{
     color: #fff;
 }
 
-/* limited support: style options (may not work on all browsers/OS) */
 select option{
     background:#fff;
     color:#000;
