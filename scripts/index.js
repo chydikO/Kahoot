@@ -119,7 +119,7 @@ function lockQuestion(){
     state.accepting = false;
     $('#next').disabled = false;
 
-    // >>> ДОДАНО: Блокуємо кнопку "Пропустити"
+    // Блокування кнопку "Пропустити"
     $('#skip').disabled = true;
 
     const q = state.pool[state.current];
